@@ -14,13 +14,14 @@ Example config:
 private_key_file: /ssl/rsync/id_rsa
 username: user
 folders:
-  - source: /config
-    destination: /home/user/config-target
-  - source: /media/playlists
-    destination: /home/user/cool-playlists
+  - local: /config
+    remote: /home/user/config-target
+    direction: push
+  - local: /media/playlists
+    remote: /home/user/cool-playlists
     options: '--archive --recursive --compress'
+    direction: pull
 remote_host: ''
-remote_folder: /home/user
 
 ```
 
@@ -37,17 +38,24 @@ The username for the user on the remote machine the key is accepted.
 
 The list of folders you want to sync with the remote machine.
 
-### `folders` - `source`
+### `folders` - `local`
 
-The source folder for rsync.
+The local folder for rsync.
 
-### `folders` - `destination`
+### `folders` - `remote`
 
-The destination folder for rsync
+The remote folder for rsync
 
 ### `folders` - `options` (optional)
 
 Use your own options for rsync. This string is replacing the default one and get directly to rsync. The default is `--archive --recursive --compress --delete --prune-empty-dirs`.
+
+### `folders` - `direction` (optional)
+
+Specify the direction of synchronization for each folder:
+
+- `push`: Copy from Home Assistant to the remote machine (default)
+- `pull`: Copy from the remote machine to Home Assistant
 
 ### `remote_host`
 
